@@ -1,29 +1,3 @@
-<<<<<<< HEAD
-package c8y.devteams.agent.configuration;
-
-import com.cumulocity.model.authentication.CumulocityCredentials;
-
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-/**
- * @author Ivelin Yanev
- * @since 01.09.2020
- *
- */
-@RequiredArgsConstructor
-@Slf4j
-public class DeviceBootstrapProcessor {
-	@NonNull
-	private final CredentialsManager credentialsManager;
-
-	public CumulocityCredentials process(String serialNumber) {
-		return null;
-		
-	}
-}
-=======
 package c8y.devteams.agent.configuration;
 
 import com.cumulocity.model.authentication.CumulocityCredentials;
@@ -48,4 +22,3 @@ public class DeviceBootstrapProcessor {
 		
 	}
 }
->>>>>>> 50db4b2... add the polling driver class
