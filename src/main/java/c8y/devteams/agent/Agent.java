@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ServiceLoader;
 
 import com.cumulocity.model.ID;
 import com.cumulocity.model.authentication.CumulocityCredentials;
@@ -23,6 +24,7 @@ import c8y.devteams.agent.configuration.DeviceConfiguration;
 import c8y.devteams.agent.driver.Driver;
 import c8y.devteams.agent.driver.DriversLoader;
 import c8y.devteams.agent.driver.OperationExecutor;
+import c8y.devteams.agent.driver.devices.RpiTemperatureSensor;
 import c8y.devteams.agent.operation.OperationDispatcher;
 import c8y.devteams.agent.services.DeviceMonitor;
 import lombok.extern.slf4j.Slf4j;
@@ -61,9 +63,12 @@ public class Agent {
 	public void init(ConfigurationManager configurationManager, DriversLoader driversLoader) {
 		log.info("Starting agent...");
 
+		
 		this.deviceConfiguration = configurationManager.getDeviceConfiguration();
 		this.drivers = initializeDrivers(driversLoader);
 		this.platform = initializePlatform(configurationManager);
+
+		setupSensors();
 
 		initializeDriverPlatforms();
 		Map<String, List<OperationExecutor>> dispatchMap = initializeInventory();
@@ -76,6 +81,15 @@ public class Agent {
 
 		new OperationDispatcher(this.platform.getDeviceControlApi(), mo.getId(), dispatchMap);
 
+	}
+
+	/**
+	 * 
+	 */
+	private void setupSensors() {
+		log.info("setting up raspberry temperature sensor");
+
+		drivers.add(new RpiTemperatureSensor("13"));
 	}
 
 	private void startServices() {
@@ -206,7 +220,7 @@ public class Agent {
 	private void initializeDriverPlatforms() {
 		for (Driver driver : drivers) {
 			try {
-				driver.initialize();
+				driver.initialize(platform);
 			} catch (Exception e) {
 				log.error("Can't initialize driver platform " + driver.getClass(), e);
 			}
@@ -236,7 +250,7 @@ public class Agent {
 		final List<Driver> drivers = new ArrayList<>();
 		log.info("Initializing drivers");
 
-		for (Driver driver : driversLoader.loadDrivers()) {
+		for (Driver driver : driversLoader.loadDrivers()) { 
 			try {
 				log.info("Initializing " + driver.getClass());
 				driver.initialize();

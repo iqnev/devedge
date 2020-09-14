@@ -1,12 +1,16 @@
 package c8y.devteams.agent.driver;
 
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import java.util.Properties;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ThreadFactory;
 
+import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.sdk.client.Platform;
+
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -31,6 +35,58 @@ public abstract class PollingDriver implements Driver, Configurable, Runnable {
 		this.executorService = newSingleThreadScheduledExecutor(new PollingDriverThreadFactory(type + "Poller"));
 		this.defaultPollingInterval = defaultPollingInterval;
 		this.actualPollingInterval = defaultPollingInterval;
+	}
+
+	@Override
+	public void initialize(Platform platform) throws Exception {
+		this.platform = platform;
+	}
+
+	@Override
+	public void start() {
+		scheduleMeasurements();
+	}
+
+	private void scheduleMeasurements() {
+		if (actualPollingInterval == 0) {
+			return;
+		}
+
+		if (scheduledFuture != null) {
+			return;
+		}
+
+		scheduledFuture = executorService.scheduleAtFixedRate(this, 0, actualPollingInterval, MILLISECONDS);
+	}
+
+	@Override
+	public OperationExecutor[] getSupportedOperations() {
+		return new OperationExecutor[0];
+	}
+
+	@Override
+	public void initializeInventory(ManagedObjectRepresentation mo) {
+		// Nothing to do here
+	}
+
+	@Override
+	public void discoverChildren(ManagedObjectRepresentation mo) {
+		// Nothing to do here
+	}
+
+	@Override
+	public void configurationChanged(Properties props) {
+		// TODO:
+	}
+
+	@Override
+	public void addDefaults(Properties props) {
+		// TODO:
+
+	}
+
+	protected Platform getPlatform() {
+		return platform;
 	}
 
 	class PollingDriverThreadFactory implements ThreadFactory {
