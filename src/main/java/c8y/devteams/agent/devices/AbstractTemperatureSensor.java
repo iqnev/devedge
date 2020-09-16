@@ -1,4 +1,4 @@
-package c8y.devteams.agent.driver.devices;
+package c8y.devteams.agent.devices;
 
 import java.math.BigDecimal;
 

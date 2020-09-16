@@ -21,6 +21,9 @@ public class AgentLauncher {
 	private static final String START = "start";
 
 	public static void main(String[] args) {
+		
+		System.out.println(System.getProperty("os.name").toLowerCase());
+		
 		if (START.equals(args[0])) {
 			start(args);
 		} else if (STOP.equals(args[0])) {

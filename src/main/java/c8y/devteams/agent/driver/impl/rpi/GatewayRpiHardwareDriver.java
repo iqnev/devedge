@@ -5,9 +5,9 @@ import com.cumulocity.model.operation.OperationStatus;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.rest.representation.operation.OperationRepresentation;
 import com.cumulocity.sdk.client.Platform;
+import com.pi4j.system.SystemInfo;
 
 import c8y.Hardware;
-import c8y.devteams.agent.Agent;
 import c8y.devteams.agent.driver.Driver;
 import c8y.devteams.agent.driver.HardwareProvider;
 import c8y.devteams.agent.driver.OperationExecutor;
@@ -38,17 +38,16 @@ public class GatewayRpiHardwareDriver implements Driver, OperationExecutor, Hard
 
 	@Override
 	public void execute(OperationRepresentation operation, boolean cleanup) throws Exception {
-		System.err.println("OPERATION: " + operation.toJSON());
+		log.debug("OPERATION: {}", operation.toJSON());
 		operation.setStatus(OperationStatus.SUCCESSFUL.toString());
 
 	}
 
 	@Override
 	public void initialize() throws Exception {
-		// TODO obtaining the necessary information from the RPI board
-		hardware.setModel("RaspPi- Yanev");
-		hardware.setRevision("123-123");
-		hardware.setSerialNumber("345-345-345A");
+		hardware.setModel(SystemInfo.getModelName());
+		hardware.setRevision(SystemInfo.getRevision());
+		hardware.setSerialNumber(SystemInfo.getSerial());
 
 	}
 
