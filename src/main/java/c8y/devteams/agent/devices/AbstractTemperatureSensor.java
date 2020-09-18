@@ -27,9 +27,9 @@ public abstract class AbstractTemperatureSensor extends MeasurementPollingDriver
 	 * 
 	 * @param id
 	 */
-	public AbstractTemperatureSensor(String id) {
+	public AbstractTemperatureSensor(String id) {		
 		super("c8y_" + TYPE + "Sensor", 5000);
-
+		log.info("AbstractTemperatureSensor(String id)");
 		this.id = id;
 	}
 
@@ -41,10 +41,10 @@ public abstract class AbstractTemperatureSensor extends MeasurementPollingDriver
 	@Override
 	public void run() {
 		double temperature = getTemperature();
-
+		log.info("public void run(): TEMP: ", temperature);
 		TemperatureMeasurement temperatureMeasurement = new TemperatureMeasurement();
 		temperatureMeasurement.setTemperature(new BigDecimal(temperature));
-
+		log.info("before send");
 		sendMeasurement(temperatureMeasurement);
 
 		log.info("sending temperature measurement: " + temperature);

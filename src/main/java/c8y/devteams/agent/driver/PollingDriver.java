@@ -32,6 +32,7 @@ public abstract class PollingDriver implements Driver, Configurable, Runnable {
 	private Platform platform;
 
 	public PollingDriver(final String type, final long defaultPollingInterval) {
+		log.info("PollingDriver(final String type, final long defaultPollingInterval)");
 		this.executorService = newSingleThreadScheduledExecutor(new PollingDriverThreadFactory(type + "Poller"));
 		this.defaultPollingInterval = defaultPollingInterval;
 		this.actualPollingInterval = defaultPollingInterval;
@@ -44,10 +45,12 @@ public abstract class PollingDriver implements Driver, Configurable, Runnable {
 
 	@Override
 	public void start() {
+		log.info("public void start()");
 		scheduleMeasurements();
 	}
 
 	private void scheduleMeasurements() {
+		log.info("void scheduleMeasurements(): " + actualPollingInterval);
 		if (actualPollingInterval == 0) {
 			return;
 		}

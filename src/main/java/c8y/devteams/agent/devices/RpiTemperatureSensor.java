@@ -27,6 +27,7 @@ public class RpiTemperatureSensor extends AbstractTemperatureSensor {
 
 	@Override
 	public Hardware getHardware() {
+		log.info("Hardware getHardware()");
 		Hardware hardware = null;
 		try {
 			hardware = new Hardware("Temperature Sensor of CPU", SystemInfo.getCpuVariant(),
@@ -44,7 +45,7 @@ public class RpiTemperatureSensor extends AbstractTemperatureSensor {
 
 	@Override
 	public double getTemperature() {
-
+		log.info("getTemperature()");
 		double temp = 0.0d;
 		try {
 			temp = SystemInfo.getCpuTemperature();

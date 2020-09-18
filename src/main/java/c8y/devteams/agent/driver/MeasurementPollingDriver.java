@@ -27,6 +27,7 @@ public abstract class MeasurementPollingDriver extends PollingDriver {
 	 */
 	public MeasurementPollingDriver(String measurementType, long defaultPollingInterval) {
 		super(measurementType, defaultPollingInterval);
+		log.info("MeasurementPollingDriver(String measurementType, long defaultPollingInterval)");
 		measurementRep.setType(measurementType);
 	}
 
@@ -41,6 +42,7 @@ public abstract class MeasurementPollingDriver extends PollingDriver {
 	}
 
 	protected void sendMeasurement(Object measurement) {
+		log.debug("void sendMeasurement(Object measurement)");
 		try {
 			measurementRep.set(measurement);
 			measurementRep.setDateTime(new DateTime());
