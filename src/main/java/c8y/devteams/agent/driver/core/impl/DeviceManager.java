@@ -1,4 +1,4 @@
-package c8y.devteams.agent.driver.impl;
+package c8y.devteams.agent.driver.core.impl;
 
 import com.cumulocity.model.ID;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
@@ -6,7 +6,7 @@ import com.cumulocity.sdk.client.Platform;
 
 import c8y.Hardware;
 import c8y.devteams.agent.DeviceManagedObject;
-import c8y.devteams.agent.driver.OperationExecutor;
+import c8y.devteams.agent.driver.core.OperationExecutor;
 import c8y.devteams.util.OpsUtils;
 import lombok.extern.slf4j.Slf4j;
 

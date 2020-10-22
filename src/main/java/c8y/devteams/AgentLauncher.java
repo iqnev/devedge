@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 
 import c8y.devteams.agent.Agent;
 import c8y.devteams.agent.configuration.ConfigurationManager;
-import c8y.devteams.agent.driver.impl.ServiceLocatorDriversLoader;
+import c8y.devteams.agent.driver.core.impl.ServiceLocatorDriversLoader;
 
 /**
  * @author Ivelin Yanev

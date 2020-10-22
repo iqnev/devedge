@@ -1,4 +1,4 @@
-package c8y.devteams.agent.driver.impl.rpi;
+package c8y.devteams.agent.driver.core.impl.rpi;
 
 import com.cumulocity.model.idtype.GId;
 import com.cumulocity.model.operation.OperationStatus;
@@ -8,9 +8,9 @@ import com.cumulocity.sdk.client.Platform;
 import com.pi4j.system.SystemInfo;
 
 import c8y.Hardware;
-import c8y.devteams.agent.driver.Driver;
-import c8y.devteams.agent.driver.HardwareProvider;
-import c8y.devteams.agent.driver.OperationExecutor;
+import c8y.devteams.agent.driver.core.Driver;
+import c8y.devteams.agent.driver.core.HardwareProvider;
+import c8y.devteams.agent.driver.core.OperationExecutor;
 import c8y.devteams.util.OpsUtils;
 import lombok.extern.slf4j.Slf4j;
 

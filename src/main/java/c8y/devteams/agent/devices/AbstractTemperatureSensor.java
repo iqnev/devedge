@@ -7,8 +7,8 @@ import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import c8y.Hardware;
 import c8y.TemperatureMeasurement;
 import c8y.TemperatureSensor;
-import c8y.devteams.agent.driver.MeasurementPollingDriver;
-import c8y.devteams.agent.driver.impl.DeviceManager;
+import c8y.devteams.agent.driver.core.MeasurementPollingDriver;
+import c8y.devteams.agent.driver.core.impl.DeviceManager;
 import lombok.extern.slf4j.Slf4j;
 
 /**

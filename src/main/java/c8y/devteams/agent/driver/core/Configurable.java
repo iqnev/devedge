@@ -1,4 +1,4 @@
-package c8y.devteams.agent.driver;
+package c8y.devteams.agent.driver.core;
 
 import java.util.Properties;
 

@@ -1,4 +1,4 @@
-package c8y.devteams.agent.driver;
+package c8y.devteams.agent.driver.core;
 
 import static java.util.concurrent.Executors.newSingleThreadScheduledExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;

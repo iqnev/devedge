@@ -1,9 +1,9 @@
-package c8y.devteams.agent.driver.impl;
+package c8y.devteams.agent.driver.core.impl;
 
 import java.util.ServiceLoader;
 
-import c8y.devteams.agent.driver.Driver;
-import c8y.devteams.agent.driver.DriversLoader;
+import c8y.devteams.agent.driver.core.Driver;
+import c8y.devteams.agent.driver.core.DriversLoader;
 
 /**
  * @author Ivelin Yanev

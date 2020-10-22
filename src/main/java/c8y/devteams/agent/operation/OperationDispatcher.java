@@ -15,7 +15,7 @@ import com.cumulocity.sdk.client.notification.SubscriptionListener;
 
 import c8y.devteams.agent.DeviceManagedObject;
 import c8y.devteams.agent.ErrorLog;
-import c8y.devteams.agent.driver.OperationExecutor;
+import c8y.devteams.agent.driver.core.OperationExecutor;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -1,1 +1,1 @@
-c8y.devteams.agent.driver.impl.rpi.GatewayRpiHardwareDriver
+c8y.devteams.agent.driver.core.impl.rpi.GatewayRpiHardwareDriver
