@@ -1,11 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>c8y.devteams.agent</groupId>
-	<artifactId>c8y-4-devteams-agent</artifactId>
+	<groupId>c8y.pi4.dev.agent</groupId>
+	<artifactId>pi4.dev</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>c8y-4-devteams-agent</name>
+	<packaging>pom</packaging>
+	<name>c8y-pi4-dev-agent</name>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -70,44 +71,9 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>${compiler-plugin.version}</version>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<version>${assembly-plugin.version}</version>
-				<executions>
-					<execution>
-						<id>jar-with-dependencies</id>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-						<configuration>
-							<descriptorRefs>
-								<descriptorRef>
-									jar-with-dependencies
-								</descriptorRef>
-							</descriptorRefs>
-							<archive>
-								<manifest>
-									<mainClass>
-										c8y.devteams.AgentLauncher
-									</mainClass>
-								</manifest>
-							</archive>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+
+	<modules>
+		<module>c8y-pi4-dev-core</module>
+		<module>c8y-dev-rpi</module>
+	</modules>
 </project>
