@@ -35,3 +35,10 @@ You'll need the following Maven dependency to start writing a new edge:
 
 You'll have to create a directory (META-INF/service) on your classpath. That directory contains a file with the fully qualified name of your abstract service class, like` c8y.pi4.agent.core.driver.Driver`
 This files contains the details of its implementation: `c8y.rpi.driver.GatewayRpiHardwareDriver`.
+
+## Demo, examples
+I have provided to you a demo implementation of an edge which sent the system information of Rasbery Pi SoC  to Comulosity. 
+Please look at the project with a name `c8y-dev-rpi-demo`.
+
+## Source code
+This is an alpha version of the framework, and i am going to continue with the addition of new functionality and improving the architecture.
