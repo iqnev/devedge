@@ -20,3 +20,18 @@ The following functionalities are currently available in Pi4 Dev:
 - Cumulocity Events Retriever: retrieves events from Cumulocity IoT platform.
 - Cumulocity Events Creator: write events back to Cumulocity IoT platform.
 - Cumulocity Measurements Creator: writes measurements back to Cumulocity IoT platform.
+
+## How to create a new edge
+
+You'll need the following Maven dependency to start writing a new edge:
+
+```xml
+<dependency>
+	<groupId>c8y.pi4.dev.agent</groupId>
+	<artifactId>c8y-pi4-dev-core</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+</dependency>
+```
+
+You'll have to create a directory (META-INF/service) on your classpath. That directory contains a file with the fully qualified name of your abstract service class, like` c8y.pi4.agent.core.driver.Driver`
+This files contains the details of its implementation: `c8y.rpi.driver.GatewayRpiHardwareDriver`.
