@@ -50,5 +50,7 @@ I have provided to you a demo implementation of an edge which sent the system in
 A brief description of implementation aspects: I have created the `GatewayRpiHardwareDriver` class which implements the following core interface  `Driver, OperationExecutor` and `HardwareProvider`. Also there is the RpiTemperatureSensor class which is responsible for processing CPU Temperature from the Raspberry Pi and send it to Cumulocity Cloud instance.
 Please look at the project with a name `c8y-dev-rpi-demo`.
 
+[![Cumulocity child device](https://github.com/iqnev/resources/blob/main/4.JPG "Cumulocity child device")](https://github.com/iqnev/resources/blob/main/4.JPG "Cumulocity child device")
+
 ## Source code
 This is an alpha version of the framework, and i am going to continue with the addition of new functionality and improving the architecture.
