@@ -52,5 +52,8 @@ Please look at the project with a name `c8y-dev-rpi-demo`.
 
 [![Cumulocity child device](https://github.com/iqnev/resources/blob/main/4.JPG "Cumulocity child device")](https://github.com/iqnev/resources/blob/main/4.JPG "Cumulocity child device")
 
+[![Temperature data](https://github.com/iqnev/resources/blob/main/5.JPG "Temperature data")](https://github.com/iqnev/resources/blob/main/5.JPG "Temperature data")
+
+
 ## Source code
 This is an alpha version of the framework, and i am going to continue with the addition of new functionality and improving the architecture.
