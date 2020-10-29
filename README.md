@@ -1,15 +1,24 @@
-# Cumulocity / Java lightweight framework with support for Raspberry Pi
+# Cumulocity / DevEdge IoT Framework
 
 ------------
 
-This framework provides functionality to create, connect, process, store the data at the edge and in the Cumulocity IoT platform instance. 
-It consists of scalable, fully managed Cumulocity services: an integrated software stack for the edge with capabilities for all your IoT needs.
+Cumulocity DevEdge is Java lightweight  Internet of Things (IoT) framework, useful to build and manage modern Cumulocity Edge gateway. 
+It provides functionality to create, connect, process, store the data at the edge and in the Cumulocity IoT platform instance. 
+DevEdge can run also on Raspberry Pi and other platforms will be supported in future versions.
 
 ## Technical Details
 The framework is organized as Maven multi-module project which is consisted of a mandatory component core. The core provides all functionality needed.
 to create an edge gateway. For the implementation of a given case, it is necessary to create a new module which depends on the core module.
 I have provided an example to you how to easily and quickly create a simple edge gateway.
 
+## Requirements:
+- Java Open JDK version 8 or Oracle jdk
+- Pi4J libraly
+- Maven version 2 or 3
+- Cumulocity Java SDK
+
+## Development status:
+Current released version: **0.0.1(pre-alpha)**
 
 ## Features:
 The following functionalities are currently available in Pi4 Dev:
@@ -21,7 +30,7 @@ The following functionalities are currently available in Pi4 Dev:
 - Cumulocity Events Creator: write events back to Cumulocity IoT platform.
 - Cumulocity Measurements Creator: writes measurements back to Cumulocity IoT platform.
 
-## How to create a new edge
+## Quick Start
 
 You'll need the following Maven dependency to start writing a new edge:
 
@@ -38,6 +47,7 @@ This files contains the details of its implementation: `c8y.rpi.driver.GatewayRp
 
 ## Demo, examples
 I have provided to you a demo implementation of an edge which sent the system information of Rasbery Pi SoC  to Comulosity. 
+A brief description of implementation aspects: I have created the `GatewayRpiHardwareDriver` class which implements the following core interface  `Driver, OperationExecutor` and `HardwareProvider`. Also there is the RpiTemperatureSensor class which is responsible for processing CPU Temperature from the Raspberry Pi and send it to Cumulocity Cloud instance.
 Please look at the project with a name `c8y-dev-rpi-demo`.
 
 ## Source code
