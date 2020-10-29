@@ -7,7 +7,7 @@
 		<artifactId>pi4.dev</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>c8y-dev-rpi</artifactId>
+	<artifactId>c8y-dev-rpi-demo</artifactId>
 	<dependencies>
 		<dependency>
 			<groupId>c8y.pi4.dev.agent</groupId>

@@ -74,6 +74,6 @@
 
 	<modules>
 		<module>c8y-pi4-dev-core</module>
-		<module>c8y-dev-rpi</module>
+		<module>c8y-dev-rpi-demo</module>
 	</modules>
 </project>
