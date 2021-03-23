@@ -1,5 +1,8 @@
 package c8y.pi4.agent.core.driver.impl;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Date;
 import java.util.Properties;
 
 import org.apache.log4j.AppenderSkeleton;
@@ -20,6 +23,7 @@ import com.cumulocity.sdk.client.event.EventApi;
 import c8y.pi4.agent.core.driver.Configurable;
 import c8y.pi4.agent.core.driver.Driver;
 import c8y.pi4.agent.core.driver.OperationExecutor;
+import c8y.pi4.agent.core.util.OSInfo;
 
 /**
  * @author Ivelin Yanev
@@ -33,6 +37,7 @@ public class LogDriver extends AppenderSkeleton implements Configurable, Driver 
 	public static final String DEFAULT_EVENT_LEVEL = "INFO";
 	public static final String ALARM_LEVEL_PROP = "c8y.log.alarmLevel";
 	public static final String EVENT_LEVEL_PROP = "c8y.log.eventLevel";
+	public static final String LOG_FILE = "c8y_edge.log";
 
 	private Level eventLevel = Level.toLevel(DEFAULT_EVENT_LEVEL);
 	private Level alarmLevel = Level.toLevel(DEFAULT_ALARM_LEVEL);
@@ -43,7 +48,7 @@ public class LogDriver extends AppenderSkeleton implements Configurable, Driver 
 
 	@Override
 	public void close() {
-
+		this.closed = true;
 	}
 
 	@Override
@@ -53,27 +58,63 @@ public class LogDriver extends AppenderSkeleton implements Configurable, Driver 
 
 	@Override
 	protected void append(LoggingEvent event) {
-		try {
-			if (event.getLevel().isGreaterOrEqual(alarmLevel)) {
-				alarmTemplate.setDateTime(new DateTime());
-				alarmTemplate.setText(event.getLoggerName() + ": " + event.getMessage());
-				alarms.create(alarmTemplate);
-			} else if (event.getLevel().isGreaterOrEqual(eventLevel)) {
-				eventTemplate.setDateTime(new DateTime());
-				eventTemplate.setText(event.getLoggerName() + ": " + event.getMessage());
-				events.create(eventTemplate);
+		logInLocal(event);
+
+		if (alarms != null && events != null) {
+			try {
+				if (event.getLevel().isGreaterOrEqual(alarmLevel)) {
+					alarmTemplate.setDateTime(new DateTime());
+					alarmTemplate.setText(event.getLoggerName() + ": " + event.getMessage());
+					alarms.create(alarmTemplate);
+				} else if (event.getLevel().isGreaterOrEqual(eventLevel)) {
+					eventTemplate.setDateTime(new DateTime());
+					eventTemplate.setText(event.getLoggerName() + ": " + event.getMessage());
+					events.create(eventTemplate);
+				}
+			} catch (SDKException e) {
+				if (e.getHttpStatus() != 404) {
+					throw e;
+				}
 			}
-		} catch (SDKException e) {
-			if (e.getHttpStatus() != 404) {
-				throw e;
-			}
+
+		}
+
+	}
+
+	private void logInLocal(LoggingEvent event) {
+		String logPath;
+		if (OSInfo.getOs().equals(OSInfo.OS.UNIX)) {
+			logPath = "/var/log/";
+		} else if (OSInfo.getOs().equals(OSInfo.OS.WINDOWS)) {
+			logPath = "C:/c8y.4.dev/";
+		} else {
+			return;
+		}
+		
+		StringBuilder formatedMessage = new StringBuilder();
+		formatedMessage.append(new Date(event.getTimeStamp())); 
+		formatedMessage.append(" [");
+		formatedMessage.append(event.getLevel());
+		formatedMessage.append(" ]");
+		formatedMessage.append(event.getLocationInformation().getClassName());
+		formatedMessage.append(".");
+		formatedMessage.append(event.getLocationInformation().getMethodName());
+		formatedMessage.append(":");
+		formatedMessage.append(event.getLocationInformation().getLineNumber());
+		formatedMessage.append(" - ");
+		formatedMessage.append(event.getMessage().toString());
+		formatedMessage.append("\n");
+		try (FileWriter fw = new FileWriter(logPath + LOG_FILE, true)) {
+			// the true will append the new data
+			fw.write(formatedMessage.toString());// appends the string to the file
+		} catch (IOException ioe) {
+			return;
 		}
 
 	}
 
 	@Override
 	public void initialize() throws Exception {
-		// TODO Auto-generated method stub
 
 	}
 
@@ -81,7 +122,6 @@ public class LogDriver extends AppenderSkeleton implements Configurable, Driver 
 	public void initialize(Platform platform) throws Exception {
 		alarms = platform.getAlarmApi();
 		events = platform.getEventApi();
-
 	}
 
 	@Override
