@@ -27,8 +27,8 @@ public abstract class AbstractTemperatureSensor extends MeasurementPollingDriver
 	 * 
 	 * @param id
 	 */
-	public AbstractTemperatureSensor(String id) {		
-		super("c8y_" + TYPE + "Sensor", 5000);
+	public AbstractTemperatureSensor(String id, long defaultPollingInterval) {		
+		super("c8y_" + TYPE + "Sensor", defaultPollingInterval);
 		log.info("AbstractTemperatureSensor(String id)");
 		this.id = id;
 	}

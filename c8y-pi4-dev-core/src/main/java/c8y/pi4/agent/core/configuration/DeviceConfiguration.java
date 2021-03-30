@@ -12,6 +12,8 @@ import lombok.extern.slf4j.Slf4j;
 public class DeviceConfiguration {
 	
 	public AtomicInteger requiredInterval = new AtomicInteger();
+	public long pollingInterval;
+	public String groupName;
 	
 	
 	public void initRequiredInterval() {

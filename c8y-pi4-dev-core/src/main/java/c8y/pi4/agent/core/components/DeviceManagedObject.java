@@ -9,6 +9,7 @@ import com.cumulocity.sdk.client.Platform;
 import com.cumulocity.sdk.client.SDKException;
 import com.cumulocity.sdk.client.identity.IdentityApi;
 import com.cumulocity.sdk.client.inventory.InventoryApi;
+import com.cumulocity.sdk.client.inventory.ManagedObject;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,13 +22,14 @@ import lombok.extern.slf4j.Slf4j;
 public class DeviceManagedObject {
 	private final IdentityApi registry;
 	private final InventoryApi inventory;
+	public static final String DEVICE_GROUP_TYPE = "c8y_DeviceGroup";
 
 	public DeviceManagedObject(Platform platform) {
 		this.registry = platform.getIdentityApi();
 		this.inventory = platform.getInventoryApi();
 	}
 
-	public boolean createOrUpdate(ManagedObjectRepresentation mo, ID extId, GId parentId) {
+	public GId createOrUpdate(ManagedObjectRepresentation mo, ID extId, GId parentId) {
 		GId gid = tryGetBinding(extId);
 
 		ManagedObjectRepresentation returnedMo;
@@ -44,7 +46,7 @@ public class DeviceManagedObject {
 
 		copyProps(returnedMo, mo);
 
-		return gid == null;
+		return returnedMo.getId();
 
 	}
 
@@ -104,5 +106,23 @@ public class DeviceManagedObject {
 			}
 		}
 		return eir != null ? eir.getManagedObject().getId() : null;
+	}
+
+	public GId createGroup(String name) {
+		ManagedObjectRepresentation managedObject = new ManagedObjectRepresentation();
+
+		final ID extID = new ID(name, "group");
+		managedObject.setName(name);
+		managedObject.setProperty("c8y_IsDeviceGroup", "{}");
+		managedObject.setType(DEVICE_GROUP_TYPE);
+
+		GId moID = createOrUpdate(managedObject, extID, null);
+		return moID;
+	}
+
+	public void assignToGroup(GId objectId, GId groupId) {
+		ManagedObject managedObjectApi = inventory.getManagedObjectApi(groupId);
+		managedObjectApi.addChildAssets(objectId);
+
 	}
 }

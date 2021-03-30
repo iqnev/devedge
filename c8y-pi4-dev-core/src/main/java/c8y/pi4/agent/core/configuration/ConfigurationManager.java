@@ -21,6 +21,8 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class ConfigurationManager {
 
+	private static final String GROUP_NAME = "agent.groupName";
+	private static final String DEFAULT_GROUP_NAME = "default_groupName";
 	private static final String AGENT_PASSWORD_PROPERTY = "agent.password";
 	private static final String AGENT_USER_PROPERTY = "agent.user";
 	private static final String AGENT_TENANT_PROPERTY = "agent.tenant";
@@ -71,6 +73,7 @@ public class ConfigurationManager {
 				.parseInt(deviceProps.getProperty(AGENT_REQUIRED_AVAILABILITY_PROPERTY, DEFAULT_REQUIREDAVAILABILITY));
 
 		deviceConfiguration.requiredInterval.set(requiredAvailability);
+		deviceConfiguration.groupName = deviceProps.getProperty(GROUP_NAME,DEFAULT_GROUP_NAME);
 
 		return deviceConfiguration;
 	}
