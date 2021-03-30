@@ -7,6 +7,7 @@ import java.util.Map;
 
 import com.cumulocity.model.ID;
 import com.cumulocity.model.authentication.CumulocityCredentials;
+import com.cumulocity.model.idtype.GId;
 import com.cumulocity.rest.representation.inventory.ManagedObjectRepresentation;
 import com.cumulocity.sdk.client.Platform;
 import com.cumulocity.sdk.client.PlatformImpl;
@@ -63,12 +64,11 @@ public class Agent {
 	public void init(ConfigurationManager configurationManager, DriversLoader driversLoader) {
 		log.info("Starting agent...");
 
-		
 		this.deviceConfiguration = configurationManager.getDeviceConfiguration();
 		this.drivers = initializeDrivers(driversLoader);
 		this.platform = initializePlatform(configurationManager);
 
-		setupSensors();
+		// setupSensors();
 
 		initializeDriverPlatforms();
 		Map<String, List<OperationExecutor>> dispatchMap = initializeInventory();
@@ -89,7 +89,7 @@ public class Agent {
 	private void setupSensors() {
 		log.info("setting up raspberry temperature sensor");
 
-		drivers.add(new RpiTemperatureSensor("13"));
+		drivers.add(new RpiTemperatureSensor("13", 23));
 	}
 
 	private void startServices() {
@@ -135,15 +135,17 @@ public class Agent {
 					continue;
 				}
 
-				String supportedOp = operationExecutor.supportedOperationType();
-
-				if (dispatchMap.containsKey(supportedOp)) {
-					dispatchMap.get(supportedOp).add(operationExecutor);
-				} else {
-					final List<OperationExecutor> newList = new ArrayList<OperationExecutor>();
-					newList.add(operationExecutor);
-					dispatchMap.put(supportedOp, newList);
+				String[] supportedOp = operationExecutor.supportedOperationType().split(",");
+				for (String operation : supportedOp) {
+					if (dispatchMap.containsKey(operation)) {
+						dispatchMap.get(operation).add(operationExecutor);
+					} else {
+						final List<OperationExecutor> newList = new ArrayList<OperationExecutor>();
+						newList.add(operationExecutor);
+						dispatchMap.put(operation, newList);
+					}
 				}
+
 			}
 		}
 
@@ -164,12 +166,17 @@ public class Agent {
 
 		log.debug("Agent representation is {}, updating inventory", mo);
 
-		if (new DeviceManagedObject(platform).createOrUpdate(mo, extId, null)) {
+		final DeviceManagedObject dManagedObject = new DeviceManagedObject(platform);
+
+		GId groupId = dManagedObject.createGroup(deviceConfiguration.groupName);
+
+		GId gId = dManagedObject.createOrUpdate(mo, extId, null);
+		if (gId != null) {
 			log.debug("Agent was created in the inventory");
 		} else {
 			log.debug("Agent was updated in the inventory");
 		}
-
+		dManagedObject.assignToGroup(gId, groupId);
 		return dispatchMap;
 	}
 
@@ -250,7 +257,7 @@ public class Agent {
 		final List<Driver> drivers = new ArrayList<>();
 		log.info("Initializing drivers");
 
-		for (Driver driver : driversLoader.loadDrivers()) { 
+		for (Driver driver : driversLoader.loadDrivers()) {
 			try {
 				log.info("Initializing " + driver.getClass());
 				driver.initialize();

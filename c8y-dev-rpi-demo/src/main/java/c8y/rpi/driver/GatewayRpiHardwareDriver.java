@@ -33,21 +33,26 @@ public class GatewayRpiHardwareDriver implements Driver, OperationExecutor, Hard
 
 	@Override
 	public String supportedOperationType() {
-		return "c8y_Restart";
+		return "c8y_Restart,polling_interval";
 	}
 
 	@Override
 	public void execute(OperationRepresentation operation, boolean cleanup) throws Exception {
 		log.debug("OPERATION: {}", operation.toJSON());
+		
+		
 		operation.setStatus(OperationStatus.SUCCESSFUL.toString());
-
 	}
 
 	@Override
 	public void initialize() throws Exception {
-		hardware.setModel(SystemInfo.getModelName());
+	/*	hardware.setModel(SystemInfo.getModelName());
 		hardware.setRevision(SystemInfo.getRevision());
-		hardware.setSerialNumber(SystemInfo.getSerial());
+		hardware.setSerialNumber(SystemInfo.getSerial()); */
+		
+		hardware.setModel("IIIIII");
+		hardware.setRevision("IIIIII");
+		hardware.setSerialNumber("IIIIII");
 
 	}
 
@@ -65,7 +70,13 @@ public class GatewayRpiHardwareDriver implements Driver, OperationExecutor, Hard
 	@Override
 	public void initializeInventory(ManagedObjectRepresentation mo) {
 		mo.set(hardware);
-		OpsUtils.addSupportedOperation(mo, supportedOperationType());
+		
+		for (String operation : supportedOperationType().split(",")) {
+			log.info("registering supported operation type '" + operation + "'");
+
+			OpsUtils.addSupportedOperation(mo, operation);
+		}
+		
 
 	}
 

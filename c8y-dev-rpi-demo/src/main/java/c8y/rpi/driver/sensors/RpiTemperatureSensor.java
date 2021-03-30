@@ -1,8 +1,11 @@
 package c8y.rpi.driver.sensors;
 
 import java.io.IOException;
+
+import com.cumulocity.rest.representation.operation.OperationRepresentation;
 import com.pi4j.system.SystemInfo;
 import c8y.Hardware;
+import c8y.pi4.agent.core.driver.OperationExecutor;
 import c8y.pi4.agent.core.driver.sensors.AbstractTemperatureSensor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,8 +20,8 @@ public class RpiTemperatureSensor extends AbstractTemperatureSensor {
 	/**
 	 * @param id
 	 */
-	public RpiTemperatureSensor(String id) {
-		super(id);
+	public RpiTemperatureSensor(String id, long defaultPollingInterval) {
+		super(id, defaultPollingInterval);
 	}
 
 	@Override
@@ -30,7 +33,7 @@ public class RpiTemperatureSensor extends AbstractTemperatureSensor {
 	public Hardware getHardware() {
 		log.info("Hardware getHardware()");
 		Hardware hardware = null;
-		try {
+	/*	try {
 			hardware = new Hardware("Temperature Sensor of CPU", SystemInfo.getCpuVariant(),
 					SystemInfo.getCpuRevision());
 		} catch (UnsupportedOperationException e) {
@@ -40,7 +43,7 @@ public class RpiTemperatureSensor extends AbstractTemperatureSensor {
 		} catch (InterruptedException e) {
 			log.warn(e.getMessage(), e);
 		}
-
+*/
 		return hardware;
 	}
 
@@ -48,11 +51,11 @@ public class RpiTemperatureSensor extends AbstractTemperatureSensor {
 	public double getTemperature() {
 		log.info("getTemperature()");
 		double temp = 0.0d;
-		try {
+	/*	try {
 			temp = SystemInfo.getCpuTemperature();
 		} catch (NumberFormatException | UnsupportedOperationException | IOException | InterruptedException e) {
 			log.warn("Getting raspberry CPU temperature failed " + e.getMessage(), e);
-		}
+		} */
 		return temp;
 	}
 
